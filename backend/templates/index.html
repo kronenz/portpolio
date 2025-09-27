@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Portfolio</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Welcome to Your Portfolio</h1>
+
+    <h2>Upload Your Resume</h2>
+    <form action="/upload" method="post" enctype="multipart/form-data">
+        <input type="file" name="resume">
+        <input type="submit" value="Upload">
+    </form>
+
+    <div id="portfolio-content">
+        {% if content %}
+        <pre>{{ content }}</pre>
+        {% else %}
+        <p>Your resume will be displayed here.</p>
+        {% endif %}
+    </div>
+
+    {% if content %}
+    <div id="qa-section">
+        <h2>Questions & Answers</h2>
+        <form action="{{ url_for('ask_question', filename=filename) }}" method="post">
+            <textarea name="question" rows="4" cols="50" placeholder="Ask a question about this experience..."></textarea>
+            <br>
+            <input type="submit" value="Ask">
+        </form>
+        <hr>
+        <h3>Asked Questions:</h3>
+        {% if questions %}
+            <ul>
+            {% for q in questions %}
+                <li>{{ q }}</li>
+            {% endfor %}
+            </ul>
+        {% else %}
+            <p>No questions yet. Be the first to ask!</p>
+        {% endif %}
+    </div>
+    {% endif %}
+</body>
+</html>
